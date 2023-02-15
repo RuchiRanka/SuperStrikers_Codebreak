@@ -1,9 +1,15 @@
 body {
     font-family: 'Inter';
+    margin: 0;
+}
+
+.nav {
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
 }
 
 .container {
-    height: 100vh;
+    padding: 50px 0;
     width: 100%;
     display: flex;
     align-items: center;
@@ -14,22 +20,21 @@ body {
     background: #F9F9F9;
     box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
-    padding: 30px 30px;
+    padding: 50px;
     display: inline-block;
 }
 
 .row-1 {
     display: flex;
-    padding: 35px 0;
+    padding: 0 0 30px 0;
 }
 
-.title-image {
+img {
     height: 70px;
-    width: 70px;
+    width: 300px;
 }
 
 .title-text {
-    padding: 10px;
     margin: auto;
 }
 
@@ -38,9 +43,10 @@ body {
     font-size: 17px;
 }
 
-#title-text-2 {
+.title-text-2 {
     font-weight: 500;
-    font-size: 10px;
+    font-size: 15px;
+    padding: 15px 0 0;
 }
 
 .textbox-button {
@@ -51,15 +57,21 @@ body {
     background: #FFFFFF;
     border: 1px solid #C0C0C0;
     border-radius: 5px;
-    margin-bottom: 7px;
-    padding: 7px 10px;
+    margin-bottom: 10px;
+    padding: 10px 10px;
+
 }
 
 .input-textbox:focus {
     outline: 1px solid #989191;
 }
 
-.login-button {
+.policy {
+    display: flex;
+    padding: 5px 0;
+}
+
+.btn {
     background: #3AB0FF;
     border: none;
     border-radius: 5px;
@@ -67,10 +79,9 @@ body {
     font-weight: 700;
     font-size: 16px;
     color: #FFFFFF;
-    text-decoration: none;
     text-align: center;
-    margin-bottom: 9px;
-    padding: 6px 10px;
+    margin: 9px 0;
+    padding: 16px 10px;
 }
 
 ::-webkit-input-placeholder,
@@ -79,6 +90,6 @@ body {
     font-family: 'Inter';
     font-weight: 200;
     color: #919191;
-    font-size: 13px;
+    font-size: 14px;
     text-decoration: none;
 }

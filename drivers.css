@@ -1,0 +1,108 @@
+body {
+    margin: 0;
+}
+
+form {
+    display: flex;
+}
+
+/* .admin-panel {
+    color: #00336C;
+    font-family: 'Poppins';
+    font-weight: 700;
+    font-size: 20px;
+    text-align: center;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
+    padding: 7px 0;
+} */
+
+.nav {
+    background-color: #FFFFFF;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.5);
+}
+
+.logo-img {
+    height: 70px;
+    width: 300px;
+}
+
+.driver-details {
+    display: flex;
+}
+
+.driver-img {
+    width: 300px;
+    height: 150px;
+}
+
+.employer-detail {
+    border: none;
+    padding: 50px 70px 150px;
+}
+
+.employer-heading {
+    display: flex;
+}
+
+.employer-text {
+    color: #00336C;
+    font-family: 'Poppins';
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.employer-detail-cards {
+    background: #FAFAFA;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 15px;
+    font-family: 'Inter';
+    padding: 25px;
+    margin: 20px;
+    width: 50%;
+    display: grid;
+    grid-template-columns: auto;
+}
+
+.card-text-name {
+    font-weight: 700;
+    font-size: 17px;
+    padding: 10px 0;
+}
+
+.card-text-email {
+    font-weight: 300;
+    padding: 0 0 3px;
+}
+
+.card-text-phone {
+    font-weight: 300;
+    padding: 0 0 10px;
+}
+
+.card-text-date {
+    font-weight: 500;
+    color: #FFFFFF;
+    background-color: #3AB0FF;
+    box-shadow: 0px 0px 5px rgba(136, 136, 136, 0.5);
+    border-radius: 5px;
+    width: 120px;
+    padding: 5px;
+    text-align: center;
+}
+
+@media (max-width: 900px) {
+
+    .employer-detail {
+        margin-left: 0;
+    }
+
+    .employer-card {
+        width: 100%;
+    }
+
+    .employer-detail-cards {
+        display: block;
+        padding-right: 50px
+    }
+
+  }
