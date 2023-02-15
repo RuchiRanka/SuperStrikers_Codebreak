@@ -1,3 +1,24 @@
+<?php
+$insert = false;
+
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    include '..\dbconnect.php';
+    $vid = $_POST["vid"];
+  $cname = $_POST["cname"];
+  $cid = $_POST["cid"];
+  $complaint = $_POST["complaint"];
+  $ins = $_POST["ins"];
+    //sql query
+    $sql=  " INSERT INTO `notes1` ( `vid`, `cname`, `cid`, `complaint`, `ins`) VALUES ('$vid', '$cname', '$cid', '$complaint', '$ins')";
+    $result = mysqli_query($conn, $sql);
+    //checking
+    if($result){
+        $insert = true;
+    }
+  }
+  ?>
+  
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -19,6 +40,18 @@
   </head>
 
   <body>
+
+  <?php
+         if($insert){
+                                           echo"<div class='alert alert-success alert-dismissible fade show' role='alert'>
+                                              <strong>Success!</strong> Your record has been inserted successfully.
+                                               <button type='button' class='close' data-dismiss='alert' aria-label='Close'>
+                                                <span aria-hidden='true'>&times;</span>
+</button>
+                                                   </div>";
+                                                }
+                                 ?>
+
     <div class="nav">
       <div>
         <img src="https://www.ashokleyland.com/images/al-logo.svg" />
@@ -51,6 +84,11 @@
               type="text"
               placeholder="Please Enter Delivery Address"
             />
+            <input
+              class="input-textbox"
+              type="text"
+              placeholder="Enter Preferred Delivery Time in Days"
+            />
           </div>
 
           
@@ -67,7 +105,9 @@
     </div>
 
     <div>
-      <button class="btn">Connect To Delivery Agents</button>
+      <button id="btn" class="btn">Connect To Delivery Agents</button>
     </div>
+
+    <script src="info.js"></script>
   </body>
 </html>
