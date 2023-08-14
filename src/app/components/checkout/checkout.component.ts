@@ -42,6 +42,8 @@ export class CheckoutComponent implements OnInit {
   cardElement: any;
   displayError: any = "";
 
+  isDisabled: boolean = false;
+
   constructor(private formBuilder: FormBuilder,
     private formService: FormService,
     private cartService: CartService,
@@ -121,8 +123,6 @@ export class CheckoutComponent implements OnInit {
         //   [Validators.required]),
         // expirationYear: new FormControl('', 
         //   [Validators.required])
-
-
       })
     });
 
@@ -168,7 +168,7 @@ export class CheckoutComponent implements OnInit {
     // Add event binding for the 'change' event on the card element
     this.cardElement.on('change', (event: any) => {
 
-      // get a handle to card-errors element
+      // get a handle to 'card-errors' element
       this.displayError = document.getElementById('card-errors');
 
       if(event.complete) {
@@ -282,9 +282,11 @@ export class CheckoutComponent implements OnInit {
     purchase.orderItems = orderItems;
 
     // compute payment info - for USD currency
-    this.paymentInfo.amount = this.totalPrice * 100;
+    this.paymentInfo.amount = Math.round(this.totalPrice * 100);
     this.paymentInfo.currency = "USD";
+    this.paymentInfo.receiptEmail = purchase.customer.email;
 
+    console.log(`this.paymentInfo.amount: ${this.paymentInfo.amount}`)
     // if valid form then
     // - create payment intent
     // - confirm card payment
@@ -292,18 +294,31 @@ export class CheckoutComponent implements OnInit {
 
     if(!this.checkoutFormGroup.invalid && this.displayError.textContent === "") {
 
+      this.isDisabled = true;
       this.checkoutService.createPaymentIntent(this.paymentInfo).subscribe(
         (paymentIntentResponse) => {
           this.stripe.confirmCardPayment(paymentIntentResponse.client_secret,
             {
               payment_method: {
-                card: this.cardElement
+                card: this.cardElement,
+                billing_details: {
+                  email: purchase.customer.email,
+                  name: `${purchase.customer.firstName} ${purchase.customer.lastName}`,
+                  address: {
+                    line1: purchase.billingAddress.street,
+                    city: purchase.billingAddress.city,
+                    state: purchase.billingAddress.state,
+                    postal_code: purchase.billingAddress.zipCode,
+                    country: this.billingAddressCountry?.value.code
+                  }
+                }
               }
             }, { handleActions: false })
             .then((result: any) => {
-              if(result.error) {
+              if(result.error || result.incompletePayment) {
                 // inform the customer there was an error
                 alert(`There was an error: ${result.error.message}`);
+                this.isDisabled = false;
               }
               else {
                 // call REST API via the CheckoutService
@@ -313,9 +328,11 @@ export class CheckoutComponent implements OnInit {
 
                     // reset cart
                     this.resetCart();
+                    this.isDisabled = false;
                   },
                   error: (err: any) => {
                     alert(`There was an error: ${err.mesage}`);
+                    this.isDisabled = false;
                   }
                 });
 
@@ -329,22 +346,6 @@ export class CheckoutComponent implements OnInit {
       return;
     }
 
-    // // call REST API via the CheckoutService
-    // // Error Handling - next: success, error: error
-    // this.checkoutService.placeOrder(purchase).subscribe(
-    //   {
-    //     next: response => {
-    //       alert(`Your order has been received.\nOrder tracking number: ${response.orderTrackingNumber}`);
-          
-    //       // reset cart
-    //       this.resetCart();
-    //     },
-    //     error: err => {
-    //       alert(`There was an error: ${err.message}`);
-    //     }
-    //   }
-    // );
-
   }
 
   resetCart() {
@@ -352,6 +353,7 @@ export class CheckoutComponent implements OnInit {
     this.cartService.cartItems = [];
     this.cartService.totalPrice.next(0);
     this.cartService.totalQuantity.next(0);
+    this.cartService.persistCartItems();
 
     // reset the form
     this.checkoutFormGroup.reset();
